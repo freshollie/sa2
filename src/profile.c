@@ -1404,3 +1404,82 @@ void sub_806525C(struct UNK_0806ADF4* state) {
         unk64->unk25 = !!(unkF4 ^ i);
     }
 } 
+
+void sub_806AE54(void);
+void sub_806548C(void);
+
+void sub_80653E4(void) {
+    struct UNK_0806ADF4* state = TaskGetStructPtr(gCurTask, state);
+    struct UNK_0808B3FC_UNK240* unk4 = state->unk4;
+    struct UNK_0808B3FC_UNK240* unk64 = state->unk64;
+    struct UNK_0808B3FC_UNK240* unkC4 = &state->unkC4;
+    
+    s16 unk360 = state->unk0->unk360;
+    s16 i;
+
+    for (i = 0; i < 2; i++, unk4++) {
+        unk4->unk16 = unk360 + 0x150;
+    }
+
+    unk64->unk16 = unk360 + 0x112;
+    unk64++;
+    unk64->unk16 = unk360 + 0x14E;
+    
+    unkC4->unk16 = unk360 + (state->unkF4 * 0x3C + 0x110);
+    sub_806AE54();
+
+    if (++state->unkF5 > 0xF) {
+        state->unkF5 = 0;
+        gCurTask->main = sub_806548C;
+    }
+}
+
+void sub_80655FC(void);
+
+void sub_806548C(void) {
+    struct UNK_0806ADF4* state = TaskGetStructPtr(gCurTask, state);
+    struct UNK_0808B3FC_UNK240* menuItem = state->unk64;
+    struct UNK_0808B3FC_UNK240* unkC4 = &state->unkC4;
+    struct UNK_8063730* parent = state->unk0;
+
+    s16 unk360 = parent->unk360;
+    s16 language = state->unkF6;
+    s16 i;
+
+    if (gRepeatedKeys & (DPAD_RIGHT | DPAD_LEFT)) {
+        m4aSongNumStart(SE_MENU_CURSOR_MOVE);
+        state->unkF4 = state->unkF4 == 0;
+
+        i = 0;
+        while (i < 2) {
+            menuItem->unk25 = !!(state->unkF4 ^ i);
+            i++;
+            menuItem++;
+        }
+
+        unkC4->unk16 = unk360 + (state->unkF4 * 0x3C + 0x110);
+    }
+
+    sub_806AE54();
+
+    if ((gRepeatedKeys & (DPAD_RIGHT | DPAD_LEFT))) {
+        return;
+    }
+
+    if (gPressedKeys & A_BUTTON) {
+        const struct UNK_080D95E8 *itemText3 = &gUnknown_080D9798[language][state->unkF4];
+        menuItem = &parent->unk594[1];
+        
+        menuItem->unk20 = itemText3->unk2;
+        menuItem->unkA = itemText3->unk0;
+        sub_8004558(menuItem);
+        m4aSongNumStart(SE_SELECT);
+        parent->unk359 = state->unkF4;
+        parent->unk784 = 0;
+        gCurTask->main = sub_80655FC;
+    } else if ((gPressedKeys & B_BUTTON)) {
+        m4aSongNumStart(SE_RETURN);
+        parent->unk784 = 0;
+        gCurTask->main = sub_80655FC;
+    }
+}
