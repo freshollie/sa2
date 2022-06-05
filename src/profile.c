@@ -4234,3 +4234,7 @@ void sub_8069180(s16 a, s16 b) {
         unkF0->unk16 = c + 0x80;
     }
 }
+
+void sub_806955C(void);
+void sub_806B60C(void);
+
