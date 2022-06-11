@@ -1016,7 +1016,10 @@ struct UNK_8064A40 {
     struct UNK_8063730* unk15C;
     s8 unk160;
     s8 unk161;
+
+    // language
     s8 unk162;
+    
     s8 unk163;
 }; /* size 0x164 */
 
@@ -4577,7 +4580,10 @@ struct UNK_8069978_UNK390_ROW {
     u8 unkD;
     u8 unkE;
     u8 unkF;
-    u8 filler10[576];
+    struct UNK_0808B3FC_UNK240 unk10[2];
+    struct UNK_0808B3FC_UNK240 unk130[2];
+    struct UNK_0808B3FC_UNK240 unk190[2];
+    struct UNK_0808B3FC_UNK240 unk1F0[2];
 }; /* size 0x250 */
 
 struct UNK_8069978_UNK390 {
@@ -4585,7 +4591,23 @@ struct UNK_8069978_UNK390 {
 }; /* size 0x1720 */
 
 struct UNK_8069978 {
-    u8 filler0[0x38C];
+    u16 unk0;
+    u16 unk2;
+    u16 unk4;
+    u16 unk6;
+    u16 unk8;
+    u16 unkA;
+
+    struct Unk_03002400 unkC;
+    struct Unk_03002400 unk4C;
+
+    struct UNK_0808B3FC_UNK240 unk8C;
+    struct UNK_0808B3FC_UNK240 unkBC[3];
+    struct UNK_0808B3FC_UNK240 unk14C[6];
+    struct UNK_0808B3FC_UNK240 unk26C[2];
+    struct UNK_0808B3FC_UNK240 unk2CC[2];
+    struct UNK_0808B3FC_UNK240 unk32C[2];
+
     struct UNK_8064A40* unk38C;
     struct UNK_8069978_UNK390* unk390;
     u8 unk394;
@@ -4593,11 +4615,14 @@ struct UNK_8069978 {
     u8 unk396;
     u8 unk397;
 
+    // playerName
     u16 unk398[6];
 
     u8 unk3A4;
     u8 unk3A5;
     u8 unk3A6;
+
+    // language
     s8 unk3A7;
 }; /* size 0x3A8 */
 
@@ -4655,4 +4680,222 @@ void sub_8069978(struct UNK_8064A40* playerDataMenu) {
     sub_8069B40();
     sub_8069B88(config);
     sub_8069BF0(config);
+}
+
+void sub_8069B40(void) {
+    gDispCnt = 0x1740;
+    gBgCntRegs[0] = 0x701;
+    gBgCntRegs[1] = 0x9606;
+    gBgCntRegs[2] = 0x1F0F;
+
+    gBgScrollRegs[0][0] = 0;
+    gBgScrollRegs[0][1] = 0;
+    gBgScrollRegs[1][0] = 0;
+    gBgScrollRegs[1][1] = 0;
+    gBgScrollRegs[2][0] = 0;
+    gBgScrollRegs[2][1] = 0;
+    gBgScrollRegs[3][0] = 0;
+    gBgScrollRegs[3][1] = 0;
+}
+
+void sub_8069B88(struct UNK_8069978* multiplayerRecordsScreen) {
+    multiplayerRecordsScreen->unk0 = 0;
+    multiplayerRecordsScreen->unk2 = 2;
+    multiplayerRecordsScreen->unk4 = 0;
+    multiplayerRecordsScreen->unk6 = 0x100;
+    multiplayerRecordsScreen->unkA = 0;
+    multiplayerRecordsScreen->unk8 = 0xFF;
+
+    sub_806B854(&multiplayerRecordsScreen->unkC, 0, 7, 0x98, 0x1E, 0x14, 0, 0, 0, 0);
+    sub_806B854(&multiplayerRecordsScreen->unk4C, 1, 0x16, 0x89, 0x1E, 0x14, 0, 1, 0, 0);
+}
+
+struct UNK_080D9E00 {
+    u16 unk0;
+    u16 unk2;
+    u16 unk4;
+    u16 unk6;
+    u16 unk8;
+    u16 unkA;
+    u16 unkC;
+    u16 unkE;
+};
+
+extern const struct UNK_080D9E00 gUnknown_080D9E00[6];
+extern const struct UNK_080D95E8 gUnknown_080D9E60[10];
+
+void sub_8069BF0(struct UNK_8069978* multiplayerRecordsScreen) {
+    s16 i, pos;
+    struct UNK_806B908 local48;
+    u8 unk395, unk396, unk397;
+
+    struct UNK_0808B3FC_UNK240* unk8C = &multiplayerRecordsScreen->unk8C;
+    struct UNK_0808B3FC_UNK240* unkBC = multiplayerRecordsScreen->unkBC;
+    struct UNK_0808B3FC_UNK240* unk14C = multiplayerRecordsScreen->unk14C;
+    struct UNK_0808B3FC_UNK240* unk26C = multiplayerRecordsScreen->unk26C;
+    struct UNK_0808B3FC_UNK240* unk2CC = multiplayerRecordsScreen->unk2CC;
+    struct UNK_0808B3FC_UNK240* unk32C = multiplayerRecordsScreen->unk32C;
+
+    const struct UNK_080D9E00* E00 = &gUnknown_080D9E00[multiplayerRecordsScreen->unk3A7];
+    const struct UNK_080D95E8* DF0 = gUnknown_080D9DF0;
+    const struct UNK_080D95E8* E60;
+
+    sub_806A568(unk8C,0,E00->unk4,E00->unk0,0x1000,9,0x12,5,E00->unk2,0);
+
+    sub_806A568(unkBC,0,E00->unkC,E00->unk8,0x1000,0x76,0x26,5,E00->unkA,0);
+    unkBC++;
+    sub_806A568(unkBC,0,DF0->unk4,DF0->unk0,0x1000,0x76,0x4E,0xD,DF0->unk2,0);
+    DF0++;
+    unkBC++;
+    sub_806A568(unkBC,0,DF0->unk4,DF0->unk0,0x1000,0x76,0x88,0xD,DF0->unk2,0);
+
+
+    for (i = 0, pos = 0x22; i < MAX_PLAYER_NAME_LENGTH; i++, pos+= 0xCU, unk14C++) {
+        u16 nameChar = multiplayerRecordsScreen->unk398[i];
+        if (nameChar == PLAYER_NAME_END_CHAR) {
+            nameChar = 0x11;
+        }
+
+        local48 = sub_806B908(nameChar);
+        sub_806A568(
+            unk14C, 
+            0, 
+            local48.unk0,
+            local48.unk4,
+            0x1000,
+            pos, 
+            0x3A,
+            5,
+            local48.unk6,
+            0
+        );
+    }
+
+    unk396 = multiplayerRecordsScreen->unk396;
+    unk397 = multiplayerRecordsScreen->unk397;
+    unk395 = multiplayerRecordsScreen->unk395;
+
+    E60 = &gUnknown_080D9E60[unk395 / 10];
+    sub_806A568(unk26C,0,E60->unk4,E60->unk0,0x2000,0x7C,0x40,0xD,E60->unk2,0);
+
+    unk26C++;
+    E60 = &gUnknown_080D9E60[unk395 % 10];
+    sub_806A568(unk26C,0,E60->unk4,E60->unk0,0x2000,0x84,0x40,0xD,E60->unk2,0);
+
+    E60 = &gUnknown_080D9E60[unk396 / 10];
+    sub_806A568(unk2CC,0,E60->unk4,E60->unk0,0x2000,0xA4,0x40,0xD,E60->unk2,0);
+
+    unk2CC++;
+    E60 = &gUnknown_080D9E60[unk396 % 10];
+    sub_806A568(unk2CC,0,E60->unk4,E60->unk0,0x2000,0xAC,0x40,0xD,E60->unk2,0);
+
+    E60 = &gUnknown_080D9E60[unk397 / 10];
+    sub_806A568(unk32C,0,E60->unk4,E60->unk0,0x2000,0xCC,0x40,0xD,E60->unk2,0);
+
+    unk32C++;
+    E60 = &gUnknown_080D9E60[unk397 % 10];
+    sub_806A568(unk32C,0,E60->unk4,E60->unk0,0x2000,0xD4,0x40,0xD,E60->unk2,0);
+}
+
+void sub_8069EC4(s16 i) { 
+    s16 j, pos;
+    u8 unkE, unkF, unkD;
+
+    struct UNK_806B908 local48;
+    const struct UNK_080D95E8* E60;
+
+    struct UNK_8069978_UNK390_ROW* row = &((struct UNK_8069978*)(IWRAM_START + gCurTask->structOffset))->unk390->unk0[i];
+
+    if (row->unkC) {
+        struct UNK_0808B3FC_UNK240* unk10 = row->unk10;
+        struct UNK_0808B3FC_UNK240* unk130 = row->unk130;
+        struct UNK_0808B3FC_UNK240* unk190 = row->unk190;
+        struct UNK_0808B3FC_UNK240* unk1F0 = row->unk1F0;
+
+        for (j = 0, pos = 0x22; j < MAX_PLAYER_NAME_LENGTH; j++, pos+= 0xCU, unk10++) {
+            u16 nameChar = row->unk0[i];
+            if (nameChar == PLAYER_NAME_END_CHAR) {
+                nameChar = 0x11;
+            }
+
+            local48 = sub_806B908(nameChar);
+            sub_806A568(
+                unk10, 
+                0, 
+                local48.unk0,
+                local48.unk4,
+                0x2000,
+                pos, 
+                i * 18 + 90,
+                5,
+                local48.unk6,
+                0
+            );
+        }
+
+        unkE = row->unkE;
+        unkF = row->unkF;
+        unkD = row->unkD;
+
+        E60 = &gUnknown_080D9E60[unkD / 10];
+        sub_806A568(unk130,0,E60->unk4,E60->unk0,0x2000,0x7C,0x40,0xD,E60->unk2,0);
+
+        unk130++;
+        E60 = &gUnknown_080D9E60[unkD % 10];
+        sub_806A568(unk130,0,E60->unk4,E60->unk0,0x2000,0x84,0x40,0xD,E60->unk2,0);
+
+        E60 = &gUnknown_080D9E60[unkD / 10];
+        sub_806A568(unk190,0,E60->unk4,E60->unk0,0x2000,0xA4,0x40,0xD,E60->unk2,0);
+
+        unk190++;
+        E60 = &gUnknown_080D9E60[unkD % 10];
+        sub_806A568(unk190,0,E60->unk4,E60->unk0,0x2000,0xAC,0x40,0xD,E60->unk2,0);
+
+        E60 = &gUnknown_080D9E60[unkD / 10];
+        sub_806A568(unk1F0,0,E60->unk4,E60->unk0,0x2000,0xCC,0x40,0xD,E60->unk2,0);
+
+        unk1F0++;
+        E60 = &gUnknown_080D9E60[unkD % 10];
+        sub_806A568(unk1F0,0,E60->unk4,E60->unk0,0x2000,0xD4,0x40,0xD,E60->unk2,0);
+    }
+}
+
+void sub_806A1D0(void);
+void sub_806A348(void);
+void sub_806B7D0(void);
+
+void sub_806A0F4(void) {
+    struct UNK_8069978* multiplayerRecordsScreen = TaskGetStructPtr(gCurTask, multiplayerRecordsScreen);
+    struct UNK_8069978_UNK390_ROW* rows = multiplayerRecordsScreen->unk390;
+
+    sub_806A348();
+    if (gRepeatedKeys & (DPAD_DOWN | DPAD_UP)) {
+        if (gRepeatedKeys & DPAD_UP) {
+            if (multiplayerRecordsScreen->unk3A6) {
+                m4aSongNumStart(SE_MENU_CURSOR_MOVE);
+                multiplayerRecordsScreen->unk3A5 = multiplayerRecordsScreen->unk3A6;
+                multiplayerRecordsScreen->unk3A4 = --multiplayerRecordsScreen->unk3A6;
+                gCurTask->main = sub_806A1D0;
+                return;
+            }
+        } else {
+            if (gRepeatedKeys & DPAD_DOWN) {
+                if (multiplayerRecordsScreen->unk3A6 >= 5) {
+                    if (rows[4 + multiplayerRecordsScreen->unk3A6].unk0[5]) {
+                        m4aSongNumStart(SE_MENU_CURSOR_MOVE);
+                        multiplayerRecordsScreen->unk3A4 = multiplayerRecordsScreen->unk3A6;
+                        multiplayerRecordsScreen->unk3A5 = multiplayerRecordsScreen->unk3A6;
+                        multiplayerRecordsScreen->unk3A6++;
+                        gCurTask->main = sub_806A1D0;
+                        return;
+                    }
+                }
+            }
+        }
+    }
+
+    if (gRepeatedKeys & B_BUTTON) {
+        m4aSongNumStart(SE_RETURN);
+        sub_806B7D0();
+    }
 }
